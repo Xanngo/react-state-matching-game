@@ -13,12 +13,10 @@ export default function useHover() {
   };
 
   useEffect(() => {
-    console.log('add');
     ref.current.addEventListener('mouseenter', enter);
     ref.current.addEventListener('mouseleave', leave);
 
     return () => {
-      console.log('remove');
       ref.current.removeEventListener('mouseenter', enter);
       ref.current.removeEventListener('mouseleave', leave);
     };
