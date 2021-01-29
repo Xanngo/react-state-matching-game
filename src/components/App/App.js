@@ -49,7 +49,7 @@ class App extends Component {
           tiles.getIn([selectedTileIndex, 'color']) === tiles.getIn([previousTileIndex, 'color'])
         ) {
           tiles = tiles.setIn([selectedTileIndex, 'matched'], true);
-          tiles = tiles.setIn([selectedTileIndex, 'matched'], true);
+          tiles = tiles.setIn([previousTileIndex, 'matched'], true);
           previousTileIndex = null;
         } else {
           toBeCleared = [previousTileIndex, selectedTileIndex];
