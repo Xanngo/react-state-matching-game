@@ -1,9 +1,8 @@
 import React, { Component, useState } from 'react';
-import { List } from 'immutable';
 import OptionsPanel from '../OptionsPanel';
 import Board from '../Board';
 
-import { createTiles, indexOfSelected } from '../../misc/utils';
+import { createTiles, indexOfSelected, setIn } from '../../misc/utils';
 
 import './App.css';
 
@@ -30,26 +29,26 @@ class App extends Component {
 
   handleTileClicked = (id, color) => {
     this.setState((state) => {
-      let tiles = List(state.tiles);
+      let tiles = state.tiles;
       let toBeCleared = null;
       const selectedTileIndex = indexOfSelected(state.tiles, id, color);
       let previousTileIndex = state.previousTileIndex;
 
       if (state.toBeCleared !== null) {
-        tiles = tiles.setIn([state.toBeCleared[0], 'selected'], false);
-        tiles = tiles.setIn([state.toBeCleared[1], 'selected'], false);
+        tiles = setIn(tiles, state.toBeCleared[0], 'selected', false);
+        tiles = setIn(tiles, state.toBeCleared[1], 'selected', false);
         toBeCleared = null;
       }
 
-      tiles = tiles.setIn([selectedTileIndex, 'selected'], true);
+      tiles = setIn(tiles, selectedTileIndex, 'selected', true);
 
       if (previousTileIndex !== null) {
         if (
-          tiles.getIn([selectedTileIndex, 'id']) !== tiles.getIn([previousTileIndex, 'id']) &&
-          tiles.getIn([selectedTileIndex, 'color']) === tiles.getIn([previousTileIndex, 'color'])
+          tiles[selectedTileIndex].id !== tiles[previousTileIndex].id &&
+          tiles[selectedTileIndex].color === tiles[previousTileIndex].color
         ) {
-          tiles = tiles.setIn([selectedTileIndex, 'matched'], true);
-          tiles = tiles.setIn([previousTileIndex, 'matched'], true);
+          tiles = setIn(tiles, selectedTileIndex, 'matched', true);
+          tiles = setIn(tiles, previousTileIndex, 'matched', true);
           previousTileIndex = null;
         } else {
           toBeCleared = [previousTileIndex, selectedTileIndex];
@@ -61,7 +60,7 @@ class App extends Component {
 
       return {
         previousTileIndex,
-        tiles: tiles.toArray(),
+        tiles: tiles,
         toBeCleared,
       };
     });

@@ -1,10 +1,9 @@
 import React from 'react';
 
 import App from '../../src/components/App';
-import { createTiles } from '../../src/misc/utils';
+import { createTiles, setIn } from '../../src/misc/utils';
 
 import { shallow } from 'enzyme';
-import { List } from 'immutable';
 
 describe('App', () => {
   const wrapper = shallow(<App />);
@@ -50,12 +49,11 @@ describe('App', () => {
       instance.handleTileClicked(tiles[5].id, tiles[5].color);
     } catch (error) {}
 
-    let expectedTiles = List(tiles);
-    expectedTiles = expectedTiles.setIn([5, 'selected'], true);
+    let expectedTiles = setIn(tiles, 5, 'selected', true);
 
     expect(setStateSpy, 'Did you set the previousTileIndex to the selectedTileIndex?').toHaveBeenCalledWith({
       previousTileIndex: 5,
-      tiles: expectedTiles.toArray(),
+      tiles: expectedTiles,
       toBeCleared: null,
     });
   });

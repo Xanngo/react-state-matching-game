@@ -61,4 +61,15 @@ const randomizeTiles = (tileArray) => {
   return tileArray;
 };
 
-export { createTiles, indexOfSelected };
+function setIn(array, index, prop, value) {
+  return [
+    ...array.slice(0, index),
+    {
+      ...array[index],
+      [prop]: value,
+    },
+    ...array.slice(index + 1),
+  ];
+}
+
+export { createTiles, indexOfSelected, setIn };
