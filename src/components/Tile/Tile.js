@@ -7,7 +7,11 @@ const Tile = (tile) => {
     tile.matched || tile.selected ? { backgroundColor: tile.color } : null;
 
   return (
-    <div className="Tile" style={colorStyle}>
+    <div
+      className="Tile"
+      style={colorStyle}
+      onClick={() => tile.handleTileClicked(tile.id, tile.color)}
+    >
       {(tile.matched || tile.selected) && <tile.svg />}
     </div>
   );
